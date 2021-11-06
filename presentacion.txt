@@ -1,0 +1,9 @@
+﻿DevsFuturistics
+El equipo de desarrollo DevsFuturistics llevara a cabo durante 7 semanas el desarrollo de una aplicación de un modelo de sistema de información
+que soporte la gestión de proyectos de investigación y mejore los procesos, para esta aplicación el 
+equipo se vera retado a hacer el respectivo análisis, diseño y construcción de la aplicación. 
+
+A continuación, cada integrante del equipo de desarrollo se presentará:
+- Hola Compañeros, mi nombre es Alejandro López, vivo en Cali, soy tecnólogo en sistemas de información, y trabajo en el área de soporte técnico. 
+La expectativa que tengo con la programación es ser un buen desarrollador web y con esto lograr nuevas oportunidades.
+
