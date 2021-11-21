@@ -81,6 +81,16 @@
     background-color: #c9c7df;
 }
 
+
+.pie {
+  height: 4rem;
+  
+}
+
+.inferior{
+    padding-top: 190px;
+}
+
   hr {
     margin: 1rem 0;
     color: inherit;
