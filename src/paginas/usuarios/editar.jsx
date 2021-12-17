@@ -38,41 +38,48 @@ const EditarUsuario = () => {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Estado modificado correctamente');
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error modificando el estado');
     }
 
     if (queryError) {
-      toast.error('Error consultando el usuario');
+      toast.error('Error consultando el estado');
     }
   }, [queryError, mutationError]);
 
   if (queryLoading) return <div>Cargando....</div>;
 
   return (
-    <div className='flew flex-col w-full h-full items-center justify-center p-10'>
+    <div className='form-signin'>
+      
       <Link to='/admin/usuarios'>
-        <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
+        <i className='fas fa-arrow-left ' />
       </Link>
-      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Editar Usuario</h1>
+      <br />
+      <h1 className='text-xl font-bold text-gray-900'>Editar Estado</h1>
       <form
         onSubmit={submitForm}
         onChange={updateFormData}
         ref={form}
         className='flex flex-col items-center justify-center'
       >
+        <div style={{ display: 'none' }}>
         <Input
           label='Nombre de la persona:'
           type='text'
           name='nombre'
           defaultValue={queryData.Usuario.nombre}
           required={true}
+          
+          
         />
+        </div>
+        <div style={{ display: 'none' }}>
         <Input
           label='Apellido de la persona:'
           type='text'
@@ -80,6 +87,8 @@ const EditarUsuario = () => {
           defaultValue={queryData.Usuario.apellido}
           required={true}
         />
+        </div>
+        <div style={{ display: 'none' }}>
         <Input
           label='Correo de la persona:'
           type='email'
@@ -87,6 +96,8 @@ const EditarUsuario = () => {
           defaultValue={queryData.Usuario.correo}
           required={true}
         />
+        </div>
+        <div style={{ display: 'none' }}>
         <Input
           label='Identificación de la persona:'
           type='text'
@@ -94,16 +105,22 @@ const EditarUsuario = () => {
           defaultValue={queryData.Usuario.identificacion}
           required={true}
         />
+        </div>
+        <span>Nombre del usuario: {queryData.Usuario.nombre}</span>
+        <br />
+        <span>Apellido del usuario: {queryData.Usuario.apellido}</span>
+        <br />
+        <span>Correo del usuario: {queryData.Usuario.correo}</span>
+        <br />
+        <span>Identificacion del usuario: {queryData.Usuario.identificacion}</span>
         <DropDown
-         label='Estado de la persona:'
+          label='Estado de la persona:'
           name='estado'
           defaultValue={queryData.Usuario.estado}
           required={true}
           options={Enum_EstadoUsuario}
-
         />
-         <span>Rol del usuario: {queryData.Usuario.rol}</span> 
-        
+        <span>Rol del usuario: {queryData.Usuario.rol}</span>
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}
           loading={mutationLoading}
@@ -113,5 +130,6 @@ const EditarUsuario = () => {
     </div>
   );
 };
+
 
 export default EditarUsuario;

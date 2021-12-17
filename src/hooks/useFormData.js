@@ -7,8 +7,29 @@ const useFormData = (initial) => {
     const fd = new FormData(form.current);
     const obj = {};
     fd.forEach((value, key) => {
-      obj[key] = value;
+      if (key.includes('nested')) {
+        // eslint-disable-next-line
+        const [p0, p1, p2, p3] = key.split('||');
+        if (Object.keys(obj).includes(p1)) {
+          if (Object.keys(obj[p1]).includes(p2)) {
+            obj[p1][p2][p3] = value;
+          } else {
+            obj[p1][p2] = {
+              [p3]: value,
+            };
+          }
+        } else {
+          obj[p1] = {
+            [p2]: {
+              [p3]: value,
+            },
+          };
+        }
+      } else {
+        obj[key] = value;
+      }
     });
+    console.log(obj);
     return obj;
   };
   const updateFormData = () => {

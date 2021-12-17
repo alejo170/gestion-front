@@ -4,6 +4,7 @@ import { GET_USUARIOS } from '../../graphql/usuarios/queries';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Enum_Rol, Enum_EstadoUsuario } from '../../utils/enum';
+import PrivateComponent from '../../componentes/PrivateComponent';
 
 const IndexUsuarios = () => {
   const { data, error, loading } = useQuery(GET_USUARIOS);
@@ -35,26 +36,85 @@ const IndexUsuarios = () => {
             <th>Editar</th>
           </tr>
         </thead>
+
+        <PrivateComponent roleList={['LIDER']}>
+
         <tbody>
           {data &&
+          // eslint-disable-next-line
             data.Usuarios.map((u) => {
+
+              if (u.rol === "ESTUDIANTE") {
+
               return (
+
+                
+                
                 <tr key={u._id}>
                   <td>{u.nombre}</td>
                   <td>{u.apellido}</td>
                   <td>{u.correo}</td>
                   <td>{u.identificacion}</td>
                   <td>{Enum_Rol[u.rol]}</td>
+                  
                   <td>{Enum_EstadoUsuario[u.estado]}</td>
+
+          
+
                   <td>
                      <Link to={`/admin/usuarios/editar/${u._id}`}>
-                      <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
+                      <i className='fas fa-pen' />
                     </Link>
                   </td>  
                 </tr>
               );
+
+              }
+
             })}
         </tbody>
+
+        </PrivateComponent>
+
+        <PrivateComponent roleList={['ADMINISTRADOR']}>
+
+<tbody>
+  {data &&
+    data.Usuarios.map((u) => {
+
+      
+
+      return (
+
+        
+        
+        <tr key={u._id}>
+          <td>{u.nombre}</td>
+          <td>{u.apellido}</td>
+          <td>{u.correo}</td>
+          <td>{u.identificacion}</td>
+          <td>{Enum_Rol[u.rol]}</td>
+          
+          <td>{Enum_EstadoUsuario[u.estado]}</td>
+
+  
+
+          <td>
+             <Link to={`/admin/usuarios/editar/${u._id}`}>
+              <i className='fas fa-pen' />
+            </Link>
+          </td>  
+        </tr>
+      );
+
+      
+
+    })}
+</tbody>
+
+</PrivateComponent>
+
+
       </table>
     </div>
   );

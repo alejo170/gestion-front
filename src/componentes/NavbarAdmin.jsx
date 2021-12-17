@@ -1,12 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import logo from '../imagenes/logo.png';
+import PrivateComponent from './PrivateComponent';
+import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 const NavbarAdmin = () => {
+
+   
+
     return (
-        <div>
-            
-            <nav class="navbar navbar-expand-lg fondomenu text-uppercase fixed-top" id="mainNav">
+<div>
+<nav class="navbar navbar-expand-lg fondomenu text-uppercase fixed-top" id="mainNav">
 <div class="container">
     
     <img src={logo} alt='imagen' height="70" />
@@ -16,19 +20,63 @@ const NavbarAdmin = () => {
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ms-auto">
-            <Link to="/admin/usuarios"><li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Usuarios</a></li></Link>
-            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Proyectos</a></li>
-            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Inscripciones</a></li>
-            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Avances</a></li>
-            <Link to="/Login"><li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Logout</a></li></Link>
+
+        <li><NavLink to='/admin/perfil' className='nav-link py-3 px-0 px-lg-3 rounded'> 
+                <div>
+                    <i className='fas fa-user' />
+                    <span>Perfil</span>
+                </div></NavLink></li>
+
+        <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+        <li><NavLink to='/admin/usuarios' className='nav-link py-3 px-0 px-lg-3 rounded'> 
+                <div>
+                    <i className='fas fa-users' />
+                    <span>Usuarios</span>
+                </div></NavLink></li>
+        </PrivateComponent>
+            <li><NavLink to='/admin/proyectos' className='nav-link py-3 px-0 px-lg-3 rounded'> 
+                <div>
+                    <i className='fas fa-project-diagram' />
+                    <span>Proyectos</span>
+                </div></NavLink></li>
+            <li><NavLink to='/admin/inscripciones' className='nav-link py-3 px-0 px-lg-3 rounded'> 
+                <div>
+                    <i className='fas fa-calendar-check' />
+                    <span>Inscripciones</span>
+                </div></NavLink></li>
+            <li><NavLink to='/admin/avances' className='nav-link py-3 px-0 px-lg-3 rounded'> 
+                <div>
+                    <i className='fas fa-tasks' />
+                    <span>Avances</span>
+                </div></NavLink>
+            </li>
+            <Logout />
         </ul>
     </div>
 </div>
 </nav>
+</div>
+    );
+};
+        
+const Logout = () => {
+const { setToken } = useAuth();
+const deleteToken = () => {
+console.log('eliminar token');
+setToken(null);
+};
+    
+        return (
 
-
-        </div>
-    )
-}
+            <li onClick={() => deleteToken()}>
+                <NavLink to='/login' className='nav-link py-3 px-0 px-lg-3 rounded'>
+                 <div>
+                 <i className='fas fa-sign-out-alt' />
+                <span>Salir</span>
+                </div>
+                </NavLink>
+            </li>
+            );
+        };
 
 export default NavbarAdmin
