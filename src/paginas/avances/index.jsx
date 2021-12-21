@@ -1,11 +1,173 @@
-import React from 'react'
+import { useMutation, useQuery } from '@apollo/client';
+import React, {useState} from 'react'
+import {useParams} from 'react-router-dom';
+import { GET_AVANCES } from '../../graphql/avances/queries';
+import { Dialog } from '@mui/material';
+import Input from '../../componentes/Input';
+import ButtonLoading from '../../componentes/ButtonLoading';
+import useFormData from '../../hooks/useFormData';
+import { CREAR_AVANCE, CREAR_OBSERVACION } from '../../graphql/avances/mutation';
+import { useUser } from '../../context/userContext';
+import { toast } from 'react-toastify';
+import PrivateComponent from '../../componentes/PrivateComponent';
+import { nanoid } from 'nanoid';
 
-const avances = () => {
+
+const Avances = () => {
+    const {projectid} = useParams();
+    const [openDialog, setOpenDialog] = useState(false)
+    
+    const {data, loading} =useQuery(GET_AVANCES, {
+        variables:{
+            project: projectid,
+        },
+    });
+
+
+    if(loading) return <div>Loading...</div>
+
     return (
-        <div>
-            <h1 className='text-3xl font-bold my-4'>Lista de Avances</h1>
+       <div className='flex flex-col p-10 items-center'>
+            <h1 className='text-3xl font-bold my-4' >Lista de Avances {projectid}</h1>
+            <button onClick={() => setOpenDialog(true)}
+            className=' p-2  rounded-lg shadow-lg' 
+            type='button'>Crear Nuevo Avance</button>
+            {data.Avances.length === 0 ? (
+            <span>No tienes avances para este proyecto</span>
+            ):(
+            data.Avances.map((avance)=>
+                <Avance avance={avance}/>
+            ))}
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)} >
+                <CrearAvance proyecto={projectid} setOpenDialog={setOpenDialog}/>
+            </Dialog>
+        </div>
+
+    );
+};
+
+const Avance = ({avance}) =>{
+    const[openDialog, setOpenDialog] =useState(false)
+    return(
+        <div className='flex flex-col bg-gray-200 shadow-lg p-3 rounded-xl m-2'>
+            <span>
+             <strong>Avance:</strong> {avance.descripcion }
+            </span>
+            <span>
+            <strong>Fecha: </strong> {avance.fecha }
+            </span>
+            <div className='flex  my-4'>
+                {avance.observaciones.length === 0 ? (
+                <span>Sin Observaciones</span>
+                ) : (
+                <>
+                    {avance.observaciones.map((obs, index) => {
+                    return (
+                        <div
+                        key={nanoid()}
+                        className='bg-white w-32 m-2 p-2 rounded-lg shadow-lg flex flex-col'
+                        >
+                        <span>
+                            {index + 1}. {obs}
+                        </span>
+                        <div className='flex items-end justify-center my-2'>
+                            <i className='fas fa-pen mx-2' />
+                            <i className='fas fa-trash mx-2' />
+                        </div>
+                        </div>
+                    );
+                    })}
+                </>
+                )}
+            </div>
+            <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+            <button
+            onClick={()=> {setOpenDialog(true)}} 
+            className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400' 
+            type='button'>Agregar observacion</button>
+            </PrivateComponent>
+            <Dialog 
+            open = {openDialog}
+            onClose={() => {
+                setOpenDialog(false)
+            }}>
+            <AgregarObservacion _id={avance._id} setOpenDialog={setOpenDialog}/>
+            </Dialog>
         </div>
     )
-}
+};
 
-export default avances
+const AgregarObservacion = ({_id, setOpenDialog}) => {
+    const {formData, form, updateFormData} = useFormData();
+
+    const [crearObservacion, {loading}] = useMutation(CREAR_OBSERVACION);
+
+    const submitForm = (e)=>{
+        e.preventDefault()
+        crearObservacion({
+            variables:{
+                _id, 
+                ...formData,
+            }
+        }).then(()=>{
+            toast.success('comentario agregado exitosamente');
+            setOpenDialog(false);
+        })
+        .catch(()=>{
+            toast.error('error agregando observacion')
+        });
+    }
+    return <div className='p-4'>
+        <h1 className='text-2xl font-bold'>Agregar observación</h1>
+        <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+            <div className='flex flex-col'>
+            <textarea name='observacion' className='input my-20' />
+            <ButtonLoading
+            text='Agregar observacion'
+            loading={loading}
+            disabled={Object.keys(formData).length===0}
+            />
+            </div>
+        </form>
+        </div>
+};
+
+const CrearAvance = ({ proyecto, setOpenDialog }) => {
+    const { userData } = useUser();
+    const { form, formData, updateFormData } = useFormData();
+  
+    const [crearAvance, { loading }] = useMutation(CREAR_AVANCE, {
+      refetchQueries: [GET_AVANCES],
+    });
+  
+    const submitForm = (e) => {
+      e.preventDefault();
+  
+      crearAvance({
+        variables: { ...formData, proyecto, creadoPor: userData._id },
+      })
+        .then(() => {
+          toast.success('avance creado con exito');
+          setOpenDialog(false);
+        })
+        .catch(() => {
+          toast.error('error creando el avance');
+        });
+    };
+    return (
+      <div className='p-4'>
+        <h1 className='text-2xl font-bold text-gray-900'>Crear Nuevo Avance</h1>
+        <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+          <Input name='descripcion' label='Descripción' type='text' />
+          <Input name='fecha' label='Fecha' type='date' />
+          <ButtonLoading
+            disabled={Object.keys(formData).length === 0}
+            loading={loading}
+            text='Crear Avance'
+          />
+        </form>
+      </div>
+    );
+  };
+
+export default Avances

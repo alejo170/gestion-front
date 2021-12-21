@@ -77,6 +77,9 @@ const AccordionProyecto = ({ proyecto }) => {
               }}
             />
           </PrivateComponent>
+
+          <Link to={`/admin/avances/${proyecto._id}`}>Visualizar Avance</Link>
+          
           <div>Liderado Por: {proyecto.lider.correo}</div>
           <div className='flex'>
             {proyecto.objetivos.map((objetivo) => {
