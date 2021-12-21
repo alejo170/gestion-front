@@ -20,8 +20,8 @@ import IndexAvances from './paginas/avances/index';
 import IndexInscripciones from './paginas/inscripciones/index';
 
 const httpLink = createHttpLink({
-  //uri: 'https://gestion-d-proyectos-back.herokuapp.com/graphql',
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://gestion-d-proyectos-back.herokuapp.com/graphql',
+  //uri: 'http://localhost:4000/graphql',
 });
 
 //const client = new ApolloClient({
