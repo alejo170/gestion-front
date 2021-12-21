@@ -178,8 +178,8 @@ const Index = () => {
                        
                         <div class="col-lg-4 mb-5 mb-lg-0">
                             <h4 class="text-uppercase mb-4">Enlaces de interes</h4>
-                            <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-trello"></i></a>
-                            <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-github"></i></a>
+                            <a class="btn btn-outline-light btn-social mx-1" href="https://trello.com/b/3nrLSuVk/devsfuturistics"><i class="fab fa-fw fa-trello"></i></a>
+                            <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/alejo170"><i class="fab fa-fw fa-github"></i></a>
                             
                         </div>
                         

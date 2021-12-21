@@ -61,8 +61,9 @@ const Profile = () => {
 
   return (
     <div className='form-signin'>
-      <h1 className='text-xl font-bold text-gray-900'>Tu Perfil</h1>
+      <h1 className='text-xl font-bold text-gray-900' data-testid='perfil'>Tu Perfil</h1>
       <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+      
         <Input
           defaultValue={queryData.Usuario.nombre}
           label='Nombre'
