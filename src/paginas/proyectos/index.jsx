@@ -14,6 +14,7 @@ import useFormData from '../../hooks/useFormData';
 import PrivateComponent from '../../componentes/PrivateComponent';
 import { Link } from 'react-router-dom';
 
+
 const AccordionStyled = styled((props) => <Accordion {...props} />)(({ theme }) => ({
   backgroundColor: '#919191',
 }));
@@ -41,7 +42,7 @@ const IndexProyectos = () => {
         
         <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
           <div className='my-2 self-end'>
-            <button className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'>
+            <button type='button' className='w-100 btn-lg btn-iniciar-sesion'>
               <Link to='/admin/proyectos/nuevo'>Crear nuevo proyecto</Link>
             </button>
           </div>

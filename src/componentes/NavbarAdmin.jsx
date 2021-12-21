@@ -44,12 +44,7 @@ const NavbarAdmin = () => {
                     <i className='fas fa-calendar-check' />
                     <span>Inscripciones</span>
                 </div></NavLink></li>
-            <li><NavLink to='/admin/avances' className='nav-link py-3 px-0 px-lg-3 rounded'> 
-                <div>
-                    <i className='fas fa-tasks' />
-                    <span>Avances</span>
-                </div></NavLink>
-            </li>
+            
             <Logout />
         </ul>
     </div>

@@ -30,7 +30,7 @@ const Avances = () => {
        <div className='flex flex-col p-10 items-center'>
             <h1 className='text-3xl font-bold my-4' >Lista de Avances {projectid}</h1>
             <button onClick={() => setOpenDialog(true)}
-            className=' p-2  rounded-lg shadow-lg' 
+            className='w-50 btn-lg btn-iniciar-sesion' 
             type='button'>Crear Nuevo Avance</button>
             {data.Avances.length === 0 ? (
             <span>No tienes avances para este proyecto</span>
@@ -83,7 +83,7 @@ const Avance = ({avance}) =>{
             <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
             <button
             onClick={()=> {setOpenDialog(true)}} 
-            className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400' 
+            className='w-50 btn-lg btn-iniciar-sesion' 
             type='button'>Agregar observacion</button>
             </PrivateComponent>
             <Dialog 
